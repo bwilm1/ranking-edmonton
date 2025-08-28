@@ -51,12 +51,6 @@
   status = 301
   force = true
 
-# Handle trailing slash redirects - remove trailing slashes
-[[redirects]]
-  from = "/*/"
-  to = "/:splat"
-  status = 301
-
 # Handle 404 errors with a custom page
 [[redirects]]
   from = "/*"
