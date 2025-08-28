@@ -1,0 +1,483 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RankingCard from '../components/RankingCard.astro';
+import JsonLdSchema from '../components/JsonLdSchema.astro';
+import { getRankings } from '../lib/fileStorage';
+import type { Ranking } from '../lib/fileStorage';
+
+// Get the rankings from our JSON file
+const rankings = await getRankings('coffee');
+
+// SEO metadata
+const title = "Best Coffee Shops in Edmonton 2025 | Ranking Edmonton";
+const description = "Discover the top coffee shops in Edmonton for 2025. From cozy cafes perfect for studying to specialty roasters serving single-origin beans, find Edmonton's highest-rated coffee spots.";
+const ogImage = "/images/coffee/transcend.jpg";
+---
+
+<Layout title={title} description={description} ogImage={ogImage} canonicalUrl="/coffee">
+  <!-- Add JSON-LD Schema for SEO -->
+  <JsonLdSchema 
+    categoryName="Best Coffee Shops in Edmonton"
+    rankings={rankings}
+    categoryDescription="A ranked list of the best coffee shops in Edmonton, as voted by locals in 2025."
+    url={Astro.url.href}
+  />
+  
+  <!-- Hero Section -->
+  <section class="relative py-16 md:py-20 bg-gradient-to-r from-food-secondary to-food-secondary/80 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-food-secondary to-food-secondary/80"></div>
+    
+    <div class="container relative z-10">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-white">
+          Best Coffee Shops in Edmonton (2025)
+        </h1>
+        <p class="text-xl mb-6 text-white">
+          From artisanal roasters to cozy study spots, find Edmonton's top-rated cafes voted by locals.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <section class="py-12 md:py-16 bg-white relative z-20">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Rankings -->
+        <div class="lg:col-span-2">
+          <h2 class="text-3xl font-bold mb-8">
+            Top-Rated Coffee Shops in Edmonton
+          </h2>
+          
+          <div class="rankings-list">
+            {rankings.map((item, index) => (
+              <RankingCard item={item} rank={index + 1} />
+            ))}
+          </div>
+          
+          <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+            <h3 class="text-xl font-bold mb-4">How We Rank</h3>
+            <p>
+              Our rankings are determined by upvotes from Edmonton locals who know the city best. 
+              This creates a real-time, constantly evolving guide to the city's top coffee destinations.
+            </p>
+            <p class="mt-4">
+              Don't see your favorite coffee shop on the list? 
+              Make sure to upvote it to help it climb the rankings!
+            </p>
+          </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <div class="card mb-8">
+              <h3 class="text-xl font-bold mb-4">Explore Other Categories</h3>
+              <ul class="space-y-2">
+                <li><a href="/pizza" class="hover:text-ui-accent transition-colors">Best Pizza</a></li>
+                <li><a href="/gyms" class="hover:text-ui-accent transition-colors">Best Gyms</a></li>
+                <li><a href="/neighborhoods" class="hover:text-ui-accent transition-colors">Best Neighborhoods</a></li>
+                <li><a href="/festivals" class="hover:text-ui-accent transition-colors">Best Festivals</a></li>
+              </ul>
+            </div>
+            
+            <div class="card mb-8 bg-food-secondary/10">
+              <h3 class="text-xl font-bold mb-4">Best Coffee Shops For...</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Studying:</strong> The Columbian Coffee House, ACE Coffee Roasters</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Remote Work:</strong> Transcend Coffee, Remedy Café</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Coffee Connoisseurs:</strong> Transcend, ACE Coffee Roasters</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Casual Meet-ups:</strong> Lock Stock Coffee, Remedy Café</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="card">
+              <h3 class="text-xl font-bold mb-4">Coffee Facts</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Canadians drink over 3.9 billion cups of coffee annually</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Edmonton has over 100 independent coffee shops</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Coffee is the most popular beverage in Canada after water</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Tabbed Content Section -->
+  <section class="py-12 md:py-16 bg-gray-50">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8 text-center">
+        Everything You Need to Know About Edmonton's Coffee Scene
+      </h2>
+      
+      <!-- Tab Navigation -->
+      <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+        <button class="tab-button active px-6 py-3 font-medium text-food-secondary border-b-2 border-food-secondary" data-tab="overview">Overview</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-food-secondary border-b-2 border-transparent hover:border-food-secondary/30" data-tab="types">Coffee Types</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-food-secondary border-b-2 border-transparent hover:border-food-secondary/30" data-tab="neighborhoods">By Location</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-food-secondary border-b-2 border-transparent hover:border-food-secondary/30" data-tab="guide">Coffee Guide</button>
+      </div>
+      
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-pane active">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <p class="text-xl text-gray-700 mb-6">
+              Edmonton's coffee scene has undergone a remarkable transformation over the past decade, evolving from a landscape dominated by major chains to a vibrant ecosystem of independent roasters, specialty cafes, and community hubs.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-secondary">☕ Coffee Facts</h3>
+                <ul class="space-y-3">
+                  <li>• Over 150 coffee shops in Edmonton</li>
+                  <li>• 12+ local coffee roasters</li>
+                  <li>• Specialty coffee growing 15% annually</li>
+                  <li>• Average coffee price: $3-6</li>
+                </ul>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-secondary">🏆 What Makes Edmonton Special</h3>
+                <ul class="space-y-3">
+                  <li>• Strong focus on direct-trade relationships</li>
+                  <li>• Community-centered cafe culture</li>
+                  <li>• Innovative cold-weather brewing methods</li>
+                  <li>• Support for local roasting talent</li>
+                </ul>
+              </div>
+            </div>
+            
+            <p>
+              The specialty coffee movement arrived in Edmonton somewhat later than in cities like Vancouver or Toronto, but it has quickly made up for lost time. What distinguishes Edmonton's coffee culture is how it reflects the city's broader character: unpretentious, community-focused, and increasingly diverse.
+            </p>
+        
+          </div>
+        </div>
+        
+        <!-- Coffee Types Tab -->
+        <div id="types" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">☕ Specialty Coffee Shops</h3>
+                <p>High-quality beans, precise brewing methods, and education. Expect single-origin options and alternative brewing methods.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Transcend Coffee, ACE Coffee Roasters</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🏠 Neighborhood Cafes</h3>
+                <p>Community-focused spots with comfortable spaces for working, socializing, and relaxing.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Remedy Café, Lock Stock Coffee</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🔥 Roasters with Cafes</h3>
+                <p>Local roasting operations serving coffee on-site, offering the freshest possible experience.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Colour Coffee, Burrow Coffee</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🚗 Drive-Thru Coffee</h3>
+                <p>Edmonton's climate makes drive-thru coffee particularly popular for busy professionals.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Local chains and independent operators</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- By Location Tab -->
+        <div id="neighborhoods" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-1 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🏢 Downtown Core</h3>
+                <p>Business district offers quick grab-and-go spots for commuters and sophisticated cafes for professional meetings.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🎨 Old Strathcona</h3>
+                <p>Historic district with beloved coffee institutions combining artistic character with quality coffee.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🛣️ Jasper Avenue</h3>
+                <p>Edmonton's main thoroughfare features a mix of established chains and innovative independents.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🎓 University Area</h3>
+                <p>Study-friendly environments with strong Wi-Fi and extended hours for students and faculty.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Coffee Guide Tab -->
+        <div id="guide" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-1 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">☕ What Makes Great Coffee?</h3>
+                <p>Quality starts with good beans and proper preparation. Look for fresh roasting dates, attention to grind consistency, water temperature, and brewing time.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🤝 Edmonton Coffee Etiquette</h3>
+                <p>Edmonton's coffee culture is relaxed and welcoming. Most cafes encourage laptop use during off-peak hours. Tipping is appreciated but not mandatory.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">❄️ Seasonal Considerations</h3>
+                <p>Edmonton's climate influences preferences - iced drinks in summer, warming spices in winter. Local roasters create seasonal offerings.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-secondary">🏪 Supporting Local</h3>
+                <p>Choose local roasters and independent cafes for superior freshness and to support Edmonton's coffee ecosystem.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Categories Section -->
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8">
+        Explore Related Categories
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="/pizza" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Pizza in Edmonton" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-food-primary/70 to-food-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Pizza</h3>
+          <p class="text-gray-600 mb-4">Discover Edmonton's tastiest pizza joints loved by locals.</p>
+        </a>
+
+        <a href="/neighborhoods" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton neighborhoods" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-secondary/70 to-lifestyle-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Neighborhoods</h3>
+          <p class="text-gray-600 mb-4">Find the perfect area to live, work, and play in Edmonton.</p>
+        </a>
+
+        <a href="/gyms" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton gyms" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-primary/70 to-lifestyle-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Gyms</h3>
+          <p class="text-gray-600 mb-4">Find the top fitness centers to stay active in Edmonton.</p>
+        </a>
+
+        <a href="/festivals" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton festivals" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-events-primary/70 to-events-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Festivals</h3>
+          <p class="text-gray-600 mb-4">Explore Edmonton's vibrant festival scene year-round.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Tab functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetTab = button.getAttribute('data-tab');
+        
+        // Remove active class from all buttons and panes
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'text-food-secondary', 'border-food-secondary');
+          btn.classList.add('text-gray-600', 'border-transparent');
+        });
+        tabPanes.forEach(pane => {
+          pane.classList.add('hidden');
+          pane.classList.remove('active');
+        });
+        
+        // Add active class to clicked button and corresponding pane
+        button.classList.add('active', 'text-food-secondary', 'border-food-secondary');
+        button.classList.remove('text-gray-600', 'border-transparent');
+        document.getElementById(targetTab).classList.remove('hidden');
+        document.getElementById(targetTab).classList.add('active');
+      });
+    });
+  });
+</script>
+        <p>
+          <strong>Micro-Roasters:</strong> These establishments roast their own beans in small batches, often focusing on single-origin coffees with transparent sourcing. Transcend Coffee exemplifies this approach, with a commitment to direct relationships with farmers and meticulous roasting profiles.
+        </p>
+        
+        <p>
+          <strong>Third-Wave Cafes:</strong> Focused on the craft of coffee preparation, these shops offer multiple brewing methods and highly trained baristas. ACE Coffee Roasters has established itself as a leader in this category, with carefully calibrated espresso and pour-over options.
+        </p>
+        
+        <p>
+          <strong>Community Hubs:</strong> These cafes prioritize creating welcoming spaces for gathering, working, and socializing. The Columbian Coffee House has built a loyal following by cultivating a cozy atmosphere perfect for studying or connecting with friends.
+        </p>
+        
+        <p>
+          <strong>Multi-Cultural Cafes:</strong> Reflecting Edmonton's diverse population, these establishments blend coffee traditions with global culinary influences. Remedy Café stands out in this category, combining excellent coffee with Indian-inspired food and chai in a vibrant setting.
+        </p>
+        
+        <h3>What Makes Edmonton's Coffee Special?</h3>
+        <p>
+          Edmonton's coffee stands out for several reasons:
+        </p>
+        
+        <ul>
+          <li><strong>Cold Climate Appreciation:</strong> Edmonton's long, cold winters have fostered a deep appreciation for warm, welcoming cafes and expertly crafted hot beverages.</li>
+          <li><strong>Community Focus:</strong> Many of Edmonton's best coffee shops serve as community anchors, hosting events, showcasing local artists, and creating spaces for connection.</li>
+          <li><strong>Educational Approach:</strong> Leading cafes often prioritize customer education, offering brewing classes, cupping sessions, and detailed information about bean origins.</li>
+          <li><strong>Sustainability Efforts:</strong> Edmonton's coffee scene has embraced environmental responsibility, with many shops prioritizing compostable packaging, reusable cup programs, and sustainable sourcing.</li>
+        </ul>
+        
+        <h3>Neighborhood Coffee Guide</h3>
+        <p>
+          <strong>Downtown/104 Street:</strong> This area has become a hub for specialty coffee, with several acclaimed cafes within walking distance. These establishments cater to professionals during the week and create vibrant weekend atmospheres.
+        </p>
+        
+        <p>
+          <strong>Old Strathcona/Whyte Ave:</strong> This historic district features eclectic coffee options ranging from bohemian study spots to polished third-wave cafes. The area's strong student presence has fostered shops with extended hours and comfortable work spaces.
+        </p>
+        
+        <p>
+          <strong>Garneau/University Area:</strong> Proximity to the University of Alberta has created a competitive coffee scene with options catering to students, faculty, and neighborhood residents. These cafes often balance quality with affordability.
+        </p>
+        
+        <p>
+          <strong>124 Street:</strong> This arts-focused corridor has attracted coffee entrepreneurs who emphasize aesthetics and community engagement. Many cafes here double as gallery spaces for local artists.
+        </p>
+        
+        <h3>Beyond the Cup: Coffee Shop Experiences</h3>
+        <p>
+          Edmonton's best coffee shops offer more than just excellent beverages:
+        </p>
+        
+        <ul>
+          <li><strong>Food Programs:</strong> Many cafes have expanded beyond pastries to offer innovative breakfast and lunch options that complement their coffee offerings.</li>
+          <li><strong>Alternative Beverages:</strong> Recognizing diverse preferences, top shops now feature extensive tea selections, house-made sodas, and non-dairy alternatives.</li>
+          <li><strong>Cultural Events:</strong> From poetry readings to live music, Edmonton's cafes often serve as cultural venues that nurture local creative communities.</li>
+          <li><strong>Retail Components:</strong> Leading shops frequently sell brewing equipment, whole beans, and educational resources to help customers improve their home coffee experience.</li>
+        </ul>
+        
+        <h3>The Best Coffee Shops for Different Needs</h3>
+        <p>
+          <strong>For Remote Workers:</strong> Look for cafes with reliable Wi-Fi, ample power outlets, comfortable seating, and a policy that welcomes extended stays. Transcend Coffee and Remedy Café are excellent options with environments conducive to productivity.
+        </p>
+        
+        <p>
+          <strong>For Students:</strong> The ideal study café offers a balance of ambient noise, affordable options, extended hours, and a supportive atmosphere. The Columbian Coffee House has established itself as a favorite among Edmonton's student population.
+        </p>
+        
+        <p>
+          <strong>For Coffee Connoisseurs:</strong> Specialty cafes like ACE Coffee Roasters and Transcend Coffee offer single-origin beans, multiple brewing methods, and baristas who can discuss flavor profiles and processing techniques in detail.
+        </p>
+        
+        <p>
+          <strong>For Casual Socializing:</strong> Welcoming spaces like Lock Stock Coffee and Remedy Café provide comfortable seating arrangements, moderate noise levels, and menu options that accommodate varied preferences.
+        </p>
+        
+        <h3>Final Thoughts: The Future of Edmonton's Coffee Scene</h3>
+        <p>
+          As Edmonton continues to grow and evolve, its coffee culture is poised for further development. Current trends suggest continued emphasis on sustainability, increased focus on directly sourced beans, more neighborhood-specific cafes, and greater integration of technology to enhance the customer experience.
+        </p>
+        
+        <p>
+          The city's coffee community has shown remarkable resilience through recent economic challenges, demonstrating the central role these establishments play in Edmonton's social fabric. With passionate entrepreneurs, educated consumers, and a supportive local culture, Edmonton's coffee scene will likely continue its upward trajectory, cementing the city's reputation as a destination for exceptional coffee experiences.
+        </p>
+        
+        <p>
+          Whether you're seeking a quiet corner to work, a vibrant space to socialize, or simply an exceptional cup of coffee, Edmonton offers a wealth of options to explore. Use our rankings as a starting point, but don't hesitate to venture beyond the list and discover your own favorite cafes across the city. And remember to upvote your favorites to help them gain the recognition they deserve!
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+    // Tab functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+      
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const targetTab = button.getAttribute('data-tab');
+          
+          // Remove active class from all buttons and panes
+          tabButtons.forEach(btn => {
+            btn.classList.remove('active', 'text-food-secondary', 'border-food-secondary');
+            btn.classList.add('text-gray-600', 'border-transparent');
+          });
+          tabPanes.forEach(pane => {
+            pane.classList.add('hidden');
+            pane.classList.remove('active');
+          });
+          
+          // Add active class to clicked button and corresponding pane
+          button.classList.add('active', 'text-food-secondary', 'border-food-secondary');
+          button.classList.remove('text-gray-600', 'border-transparent');
+          document.getElementById(targetTab).classList.remove('hidden');
+          document.getElementById(targetTab).classList.add('active');
+        });
+      });
+    });
+  </script>
+</Layout>

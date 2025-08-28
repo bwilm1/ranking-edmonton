@@ -1,0 +1,363 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RankingCard from '../components/RankingCard.astro';
+import JsonLdSchema from '../components/JsonLdSchema.astro';
+import { getRankings } from '../lib/fileStorage';
+import type { Ranking } from '../lib/fileStorage';
+
+// Get the rankings from our JSON file
+const rankings = await getRankings('pizza');
+
+// SEO metadata
+const title = "Best Pizza in Edmonton 2025 | Ranking Edmonton";
+const description = "Discover the best pizza in Edmonton for 2025. From authentic New York-style slices to traditional Neapolitan pies, find Edmonton's top-rated pizza places voted by locals.";
+const ogImage = "/images/pizza-featured.jpg";
+---
+
+<Layout title={title} description={description} ogImage={ogImage} canonicalUrl="/pizza">
+  <!-- Add JSON-LD Schema for SEO -->
+  <JsonLdSchema 
+    categoryName="Best Pizza in Edmonton"
+    rankings={rankings}
+    categoryDescription="A ranked list of the best pizza places in Edmonton, as voted by locals in 2025."
+    url={Astro.url.href}
+  />
+  
+  <!-- Hero Section -->
+  <section class="relative py-16 md:py-20 bg-gradient-to-r from-food-primary to-food-primary/80 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-food-primary to-food-primary/80"></div>
+    
+    <div class="container relative z-10">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Best Pizza in Edmonton (2025)
+        </h1>
+        <p class="text-xl mb-6">
+          From authentic Italian to creative artisanal pies, discover Edmonton's top pizza spots as voted by locals.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <section class="py-12 md:py-16 bg-white relative z-20">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Rankings -->
+        <div class="lg:col-span-2">
+          <h2 class="text-3xl font-bold mb-8">
+            Top-Rated Pizza Places in Edmonton
+          </h2>
+          
+          <div class="rankings-list">
+            {rankings.map((item, index) => (
+              <RankingCard item={item} rank={index + 1} />
+            ))}
+          </div>
+          
+          <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+            <h3 class="text-xl font-bold mb-4">How We Rank</h3>
+            <p>
+              Our rankings are determined by upvotes from Edmonton locals who know the city best. 
+              This creates a real-time, constantly evolving guide to the city's top pizza spots.
+            </p>
+            <p class="mt-4">
+              Don't see your favorite pizza place on the list? 
+              Make sure to upvote it to help it climb the rankings!
+            </p>
+          </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <div class="card mb-8">
+              <h3 class="text-xl font-bold mb-4">Explore Other Categories</h3>
+              <ul class="space-y-2">
+                <li><a href="/coffee" class="hover:text-ui-accent transition-colors">Best Coffee Shops</a></li>
+                <li><a href="/gyms" class="hover:text-ui-accent transition-colors">Best Gyms</a></li>
+                <li><a href="/neighborhoods" class="hover:text-ui-accent transition-colors">Best Neighborhoods</a></li>
+                <li><a href="/festivals" class="hover:text-ui-accent transition-colors">Best Festivals</a></li>
+              </ul>
+            </div>
+            
+            <div class="card mb-8 bg-food-primary/10">
+              <h3 class="text-xl font-bold mb-4">What Makes Great Pizza?</h3>
+              <p class="mb-4">
+                The best pizza in Edmonton combines quality ingredients, perfectly crafted dough, and the right balance of toppings. 
+                Whether you prefer thin crust, deep dish, or something in between, Edmonton has a pizza style for every taste.
+              </p>
+            </div>
+            
+            <div class="card">
+              <h3 class="text-xl font-bold mb-4">Pizza Facts</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Canadians eat an average of 33 slices of pizza per person each year</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>The most popular pizza topping in Alberta is pepperoni</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Edmonton has over 200 pizza restaurants across the city</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- In-Depth Content Section with Tabs -->
+  <section class="py-12 md:py-16 bg-gray-50">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8 text-center">
+        Everything You Need to Know About Edmonton's Pizza Scene
+      </h2>
+      
+      <!-- Tab Navigation -->
+      <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+        <button class="tab-button active px-6 py-3 font-medium text-food-primary border-b-2 border-food-primary" data-tab="overview">Overview</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-food-primary border-b-2 border-transparent hover:border-food-primary/30" data-tab="styles">Pizza Styles</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-food-primary border-b-2 border-transparent hover:border-food-primary/30" data-tab="neighborhoods">By Neighborhood</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-food-primary border-b-2 border-transparent hover:border-food-primary/30" data-tab="tips">Insider Tips</button>
+      </div>
+      
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-pane active">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <p class="text-xl text-gray-700 mb-6">
+              Edmonton's pizza scene has evolved dramatically over the past decade, transforming from a landscape dominated by major chains to a diverse ecosystem of artisanal pizzerias, family-owned establishments, and innovative concepts.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-primary">📊 Pizza Facts</h3>
+                <ul class="space-y-3">
+                  <li>• Over 200 pizza restaurants in Edmonton</li>
+                  <li>• Pepperoni is the most popular topping</li>
+                  <li>• 15+ authentic Neapolitan certified pizzerias</li>
+                  <li>• Average pizza price: $18-25</li>
+                </ul>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-primary">🏆 What Makes Edmonton Special</h3>
+                <ul class="space-y-3">
+                  <li>• Local Alberta ingredients</li>
+                  <li>• Cultural fusion influences</li>
+                  <li>• Craft beer partnerships</li>
+                  <li>• Strong community focus</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pizza Styles Tab -->
+        <div id="styles" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🇮🇹 Neapolitan</h3>
+                <p>Thin, soft crust cooked at high temperatures in wood-fired ovens. Traditional techniques with imported Italian ingredients.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Famoso Neapolitan Pizzeria</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🗽 New York Style</h3>
+                <p>Large, foldable slices with chewy, thin crust. Perfect balance of sauce, cheese, and toppings.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Sepps Pizza, Tony's Pizza Palace</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🏭 Detroit Style</h3>
+                <p>Rectangular, deep-dish with crispy, caramelized cheese edges. Hearty and satisfying.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Select locations</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">👨‍🍳 Artisanal</h3>
+                <p>Chef-driven pizzas with unique combinations and locally sourced ingredients.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Try:</strong> Craft brewery pizzerias</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Neighborhoods Tab -->
+        <div id="neighborhoods" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="space-y-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🎭 Old Strathcona/Whyte Ave</h3>
+                <p>Historic district home to beloved pizzerias and trendy newcomers. Perfect for late-night slices after exploring the nightlife.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🏢 Downtown</h3>
+                <p>Pizza renaissance with gourmet options serving the growing residential population and office workers. Focus on quick service without sacrificing quality.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🌅 West Edmonton</h3>
+                <p>Diverse options from traditional Italian restaurants to modern fast-casual concepts. Generations of family-owned establishments.</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-food-primary">🏘️ South Edmonton</h3>
+                <p>Rapidly growing area with competitive pizza scene. Many family-friendly locations with kid-friendly options.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tips Tab -->
+        <div id="tips" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-primary">🎯 Ordering Tips</h3>
+                <ul class="space-y-2 text-sm">
+                  <li>• Call ahead during peak hours (6-8 PM)</li>
+                  <li>• Many places offer lunch specials</li>
+                  <li>• Ask about daily/seasonal specials</li>
+                  <li>• Consider pick-up for faster service</li>
+                </ul>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-primary">💰 Money-Saving Tips</h3>
+                <ul class="space-y-2 text-sm">
+                  <li>• Monday-Tuesday often have deals</li>
+                  <li>• Follow social media for promotions</li>
+                  <li>• Group orders often get discounts</li>
+                  <li>• Happy hour pizza specials</li>
+                </ul>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-primary">🍺 Perfect Pairings</h3>
+                <ul class="space-y-2 text-sm">
+                  <li>• Neapolitan + Light lager</li>
+                  <li>• Pepperoni + IPA</li>
+                  <li>• Margherita + Pinot Grigio</li>
+                  <li>• Meat lovers + Red wine</li>
+                </ul>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-food-primary">📱 Local Apps & Delivery</h3>
+                <ul class="space-y-2 text-sm">
+                  <li>• Most places on Skip/DoorDash</li>
+                  <li>• Direct ordering often cheaper</li>
+                  <li>• Check for minimum delivery amounts</li>
+                  <li>• Pickup typically 15-25 minutes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Related Categories Section -->
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8">
+        Explore Related Categories
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="/coffee" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=300&fit=crop&auto=format" 
+              alt="Coffee shops in Edmonton" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-food-secondary/70 to-food-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Coffee Shops</h3>
+          <p class="text-gray-600 mb-4">Discover the perfect spots for your caffeine fix in Edmonton.</p>
+        </a>
+        
+        <a href="/neighborhoods" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop&auto=format" 
+              alt="Edmonton neighborhoods" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-secondary/70 to-lifestyle-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Neighborhoods</h3>
+          <p class="text-gray-600 mb-4">Find the perfect area to live, work, and play in Edmonton.</p>
+        </a>
+        
+        <a href="/festivals" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=300&fit=crop&auto=format" 
+              alt="Edmonton festivals" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-events-primary/70 to-events-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Festivals</h3>
+          <p class="text-gray-600 mb-4">Experience Edmonton's vibrant cultural events and celebrations.</p>
+        </a>
+        
+        <a href="/gyms" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=300&fit=crop&auto=format" 
+              alt="Edmonton gyms" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-primary/70 to-lifestyle-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Gyms</h3>
+          <p class="text-gray-600 mb-4">Find the top fitness centers to stay active in Edmonton.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Tab functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetTab = button.getAttribute('data-tab');
+        
+        // Remove active class from all buttons and panes
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'text-food-primary', 'border-food-primary');
+          btn.classList.add('text-gray-600', 'border-transparent');
+        });
+        tabPanes.forEach(pane => {
+          pane.classList.add('hidden');
+          pane.classList.remove('active');
+        });
+        
+        // Add active class to clicked button and corresponding pane
+        button.classList.add('active', 'text-food-primary', 'border-food-primary');
+        button.classList.remove('text-gray-600', 'border-transparent');
+        document.getElementById(targetTab).classList.remove('hidden');
+        document.getElementById(targetTab).classList.add('active');
+      });
+    });
+  });
+</script>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ranking-edmonton.netlify.app/sitemap.xml

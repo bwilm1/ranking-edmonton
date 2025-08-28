@@ -1,0 +1,448 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RankingCard from '../components/RankingCard.astro';
+import JsonLdSchema from '../components/JsonLdSchema.astro';
+import { getRankings } from '../lib/fileStorage';
+import type { Ranking } from '../lib/fileStorage';
+
+// Get the rankings from our JSON file, fallback to mock data
+let rankings;
+try {
+  const fileRankings = await getRankings('festivals');
+  if (fileRankings && fileRankings.length > 0) {
+    rankings = fileRankings;
+  }
+} catch (error) {
+  console.log('Using mock data for festivals:', error);
+}
+
+// SEO metadata
+const title = "Edmonton Festivals 2025 | Things to Do in Edmonton | Best Events Guide";
+const description = "Explore Edmonton's world-famous festivals including Heritage Festival, Folk Fest & Fringe. Your complete guide to Edmonton events and festivals. Perfect for tourists and locals planning things to do in Edmonton.";
+const ogImage = "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80";
+---
+
+<Layout title={title} description={description} ogImage={ogImage} canonicalUrl="/festivals">
+  <!-- Add JSON-LD Schema for SEO -->
+  <JsonLdSchema 
+    categoryName="Best Festivals in Edmonton"
+    rankings={rankings}
+    categoryDescription="A ranked list of the best festivals and events in Edmonton, as voted by locals in 2025."
+    url={Astro.url.href}
+  />
+  
+  <!-- Hero Section -->
+  <section class="relative py-16 md:py-20 bg-gradient-to-r from-events-primary to-events-primary/80 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-events-primary to-events-primary/80"></div>
+    
+    <div class="container relative z-10">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Best Festivals in Edmonton (2025)
+        </h1>
+        <p class="text-xl mb-6">
+          From world-class music festivals to cultural celebrations, discover Edmonton's vibrant festival scene as voted by locals.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <section class="py-12 pt-16 md:py-16 md:pt-20 bg-white relative z-20">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Rankings -->
+        <div class="lg:col-span-2">
+          <h2 class="text-3xl font-bold mb-8">
+            Top-Rated Festivals in Edmonton
+          </h2>
+          
+          <div class="rankings-list">
+            {rankings && rankings.length > 0 ? rankings.map((item, index) => (
+              <RankingCard item={item} rank={index + 1} />
+            )) : (
+              <p>No festivals found.</p>
+            )}
+          </div>
+          
+          <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+            <h3 class="text-xl font-bold mb-4">How We Rank</h3>
+            <p>
+              Our rankings are determined by upvotes from Edmonton locals who know the city best. 
+              This creates a real-time, constantly evolving guide to the city's top festivals and events.
+            </p>
+            <p class="mt-4">
+              Don't see your favorite festival on the list? 
+              Make sure to upvote it to help it climb the rankings!
+            </p>
+          </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <!-- Explore Other Categories -->
+            <div class="card mb-8">
+              <h3 class="text-xl font-bold mb-4">Explore Other Categories</h3>
+              <ul class="space-y-2">
+                <li><a href="/pizza" class="hover:text-ui-accent transition-colors">Best Pizza</a></li>
+                <li><a href="/coffee" class="hover:text-ui-accent transition-colors">Best Coffee Shops</a></li>
+                <li><a href="/gyms" class="hover:text-ui-accent transition-colors">Best Gyms</a></li>
+                <li><a href="/neighborhoods" class="hover:text-ui-accent transition-colors">Best Neighborhoods</a></li>
+              </ul>
+            </div>
+            
+            <!-- Festival Guide -->
+            <div class="card mb-8 bg-events-primary/10">
+              <h3 class="text-xl font-bold mb-4">Best Festivals For...</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Music Lovers:</strong> Folk Music Festival, Jazz Festival</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Foodies:</strong> Taste of Edmonton, Heritage Festival</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Families:</strong> K-Days, Street Performers Festival</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span><strong>Theater Fans:</strong> Fringe Theatre Festival, Nextfest</span>
+                </li>
+              </ul>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="card">
+              <h3 class="text-xl font-bold mb-4">Festival Facts</h3>
+              <ul class="space-y-3">
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Edmonton hosts over 50 festivals annually</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Approximately 1.5 million visitors attend festivals yearly</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-ui-accent mr-2">•</span>
+                  <span>Edmonton is known as "Canada's Festival City"</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- In-Depth Content Section with Tabs -->
+  <section class="py-12 md:py-16 bg-gray-50">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8 text-center">
+        Everything You Need to Know About Edmonton's Festival Scene
+      </h2>
+      
+      <!-- Tab Navigation -->
+      <div class="flex flex-wrap justify-center mb-8 border-b border-gray-200">
+        <button class="tab-button active px-6 py-3 font-medium text-events-primary border-b-2 border-events-primary" data-tab="overview">Overview</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-events-primary border-b-2 border-transparent hover:border-events-primary/30" data-tab="types">Festival Types</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-events-primary border-b-2 border-transparent hover:border-events-primary/30" data-tab="calendar">Seasonal Calendar</button>
+        <button class="tab-button px-6 py-3 font-medium text-gray-600 hover:text-events-primary border-b-2 border-transparent hover:border-events-primary/30" data-tab="guide">Festival Guide</button>
+      </div>
+      
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-pane active">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <p class="text-xl text-gray-700 mb-6">
+              Edmonton has earned its reputation as "Festival City" through decades of world-class celebrations that animate the city throughout the year, from massive summer events to intimate cultural gatherings.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-events-primary">🎭 Festival Facts</h3>
+                <ul class="space-y-3">
+                  <li>• Over 50 annual festivals</li>
+                  <li>• North America's largest fringe festival</li>
+                  <li>• 1.5 million visitors annually</li>
+                  <li>• $40M+ economic impact</li>
+                </ul>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-4 text-events-primary">🌟 What Makes Edmonton Special</h3>
+                <ul class="space-y-3">
+                  <li>• Year-round programming</li>
+                  <li>• Diverse cultural celebrations</li>
+                  <li>• Strong community support</li>
+                  <li>• Winter festival innovation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Festival Types Tab -->
+        <div id="types" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">🎵 Music Festivals</h3>
+                <p>From internationally acclaimed folk music to electronic dance, Edmonton hosts diverse musical celebrations.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Highlights:</strong> Folk Music Festival, Jazz Festival</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">🎭 Arts & Theater</h3>
+                <p>Performing and visual arts thrive with accessible celebrations that showcase both established and emerging talent.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Highlights:</strong> Fringe Festival, Nextfest</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">🍴 Food & Culinary</h3>
+                <p>Edmonton's growing food scene is celebrated through culinary events combining dining with entertainment.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Highlights:</strong> Taste of Edmonton, Night Markets</p>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">🌍 Cultural Heritage</h3>
+                <p>Celebrations honoring diverse cultural traditions strengthen community bonds and invite cross-cultural understanding.</p>
+                <p class="text-sm text-gray-600 mt-2"><strong>Highlights:</strong> Heritage Festival, Cultural Days</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Seasonal Calendar Tab -->
+        <div id="calendar" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="space-y-6">
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">☀️ Summer (June-August)</h3>
+                <p>Peak festival season with major outdoor events taking advantage of Edmonton's beautiful summer weather.</p>
+                <div class="grid md:grid-cols-2 gap-4 mt-4 text-sm">
+                  <div>
+                    <strong>Major Events:</strong>
+                    <ul class="mt-2 space-y-1">
+                      <li>• Folk Music Festival</li>
+                      <li>• Fringe Theatre Festival</li>
+                      <li>• K-Days</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong>Also Notable:</strong>
+                    <ul class="mt-2 space-y-1">
+                      <li>• Taste of Edmonton</li>
+                      <li>• Heritage Festival</li>
+                      <li>• Street Performers Festival</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">🍂 Fall (September-November)</h3>
+                <p>Indoor venues come alive with film, wine, and cultural programming as the weather turns cooler.</p>
+                <div class="text-sm mt-2">
+                  <strong>Key Events:</strong> Edmonton International Film Festival, Harvest Festival, Rocky Mountain Wine & Food Festival
+                </div>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">❄️ Winter (December-February)</h3>
+                <p>Edmonton embraces winter through innovative celebrations that transform cold challenges into unique experiences.</p>
+                <div class="text-sm mt-2">
+                  <strong>Key Events:</strong> Ice on Whyte Festival, Silver Skate Festival, Deep Freeze Byzantine Winter Festival
+                </div>
+              </div>
+              
+              <div class="bg-white p-6 rounded-lg shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-events-primary">🌸 Spring (March-May)</h3>
+                <p>The return of warmer weather brings jazz, children's programming, and emerging artist showcases.</p>
+                <div class="text-sm mt-2">
+                  <strong>Key Events:</strong> Edmonton International Jazz Festival, Nextfest, St. Albert International Children's Festival
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Festival Guide Tab -->
+        <div id="guide" class="tab-pane hidden">
+          <div class="prose prose-lg max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 class="text-xl font-bold mb-3 text-events-primary">🎫 Planning Ahead</h3>
+                  <ul class="space-y-2 text-sm">
+                    <li>• Popular events sell out quickly</li>
+                    <li>• Follow social media for updates</li>
+                    <li>• Consider volunteer opportunities</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 class="text-xl font-bold mb-3 text-events-primary">🚌 Getting Around</h3>
+                  <ul class="space-y-2 text-sm">
+                    <li>• Use expanded transit during events</li>
+                    <li>• Limited parking at major festivals</li>
+                    <li>• Walk or bike when possible</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 class="text-xl font-bold mb-3 text-events-primary">🌤️ Weather Prep</h3>
+                  <ul class="space-y-2 text-sm">
+                    <li>• Edmonton weather can be unpredictable</li>
+                    <li>• Layer clothing for comfort</li>
+                    <li>• Check forecasts before heading out</li>
+                  </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                  <h3 class="text-xl font-bold mb-3 text-events-primary">💡 Pro Tips</h3>
+                  <ul class="space-y-2 text-sm">
+                    <li>• Explore beyond top-ranked events</li>
+                    <li>• Volunteer for behind-scenes access</li>
+                    <li>• Support local food vendors</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-8 bg-events-primary/10 p-6 rounded-lg">
+              <h3 class="text-xl font-bold mb-4 text-events-primary">🎪 Festival Experience Guide</h3>
+              <div class="grid md:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <strong>First Timer:</strong>
+                  <ul class="mt-2 space-y-1">
+                    <li>• Start with Folk Fest or K-Days</li>
+                    <li>• Arrive early to avoid crowds</li>
+                    <li>• Bring cash for vendors</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Culture Lover:</strong>
+                  <ul class="mt-2 space-y-1">
+                    <li>• Don't miss the Fringe Festival</li>
+                    <li>• Explore Heritage Festival pavilions</li>
+                    <li>• Check out Nextfest for emerging arts</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Family Fun:</strong>
+                  <ul class="mt-2 space-y-1">
+                    <li>• K-Days offers all-age entertainment</li>
+                    <li>• Folk Fest welcomes families</li>
+                    <li>• Many events have kid-friendly zones</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Related Categories Section -->
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8">
+        Explore Related Categories
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="/neighborhoods" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton neighborhoods" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-secondary/70 to-lifestyle-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Neighborhoods</h3>
+          <p class="text-gray-600 mb-4">Find the perfect area to live, work, and play in Edmonton.</p>
+        </a>
+        
+        <a href="/gyms" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton gyms" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-primary/70 to-lifestyle-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Gyms</h3>
+          <p class="text-gray-600 mb-4">Find the top fitness centers to stay active in Edmonton.</p>
+        </a>
+        
+        <a href="/pizza" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Pizza in Edmonton" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-food-primary/70 to-food-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Pizza</h3>
+          <p class="text-gray-600 mb-4">Discover Edmonton's tastiest pizza joints loved by locals.</p>
+        </a>
+        
+        <a href="/coffee" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Coffee shops in Edmonton" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-food-secondary/70 to-food-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Coffee Shops</h3>
+          <p class="text-gray-600 mb-4">Find the perfect spots for your caffeine fix in Edmonton.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Tab functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetTab = button.getAttribute('data-tab');
+        
+        // Remove active class from all buttons and panes
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active', 'text-events-primary', 'border-events-primary');
+          btn.classList.add('text-gray-600', 'border-transparent');
+        });
+        tabPanes.forEach(pane => {
+          pane.classList.add('hidden');
+          pane.classList.remove('active');
+        });
+        
+        // Add active class to clicked button and corresponding pane
+        button.classList.add('active', 'text-events-primary', 'border-events-primary');
+        button.classList.remove('text-gray-600', 'border-transparent');
+        document.getElementById(targetTab).classList.remove('hidden');
+        document.getElementById(targetTab).classList.add('active');
+      });
+    });
+  });
+</script>
+</script>

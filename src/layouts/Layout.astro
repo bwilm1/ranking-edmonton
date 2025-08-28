@@ -1,22 +1,146 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = '/images/edmonton-skyline.jpg',
+  canonicalUrl,
+} = Astro.props;
+
+const siteUrl = 'https://ranking-edmonton.netlify.app';
+const fullCanonicalUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : Astro.url.href;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={fullCanonicalUrl} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={fullCanonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={fullCanonicalUrl} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={`${siteUrl}${ogImage}`} />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+      <nav class="container flex items-center justify-between py-4">
+        <a href="/" class="text-2xl font-heading font-bold text-ui-primary">
+          Ranking<span class="text-ui-accent">Edmonton</span>
+        </a>
+        
+        <div class="hidden md:flex space-x-1">
+          <a href="/pizza" class="nav-link">Pizza</a>
+          <a href="/coffee" class="nav-link">Coffee</a>
+          <a href="/gyms" class="nav-link">Gyms</a>
+          <a href="/neighborhoods" class="nav-link">Neighborhoods</a>
+          <a href="/festivals" class="nav-link">Festivals</a>
+        </div>
+        
+        <button id="mobile-menu-button" class="md:hidden flex items-center p-2 rounded-md hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </nav>
+      
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden hidden bg-white pb-4 shadow-lg">
+        <div class="container flex flex-col space-y-2">
+          <a href="/pizza" class="nav-link py-3 border-b">Pizza</a>
+          <a href="/coffee" class="nav-link py-3 border-b">Coffee</a>
+          <a href="/gyms" class="nav-link py-3 border-b">Gyms</a>
+          <a href="/neighborhoods" class="nav-link py-3 border-b">Neighborhoods</a>
+          <a href="/festivals" class="nav-link py-3">Festivals</a>
+        </div>
+      </div>
+    </header>
+    
+    <main>
+      <slot />
+    </main>
+    
+    <footer class="bg-ui-primary text-white py-12">
+      <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">Ranking<span class="text-ui-accent">Edmonton</span></h3>
+            <p class="text-gray-300">Discover the best of Edmonton in 2025. Voted by locals for locals.</p>
+          </div>
+          
+          <div>
+            <h4 class="text-lg font-bold mb-4">Categories</h4>
+            <ul class="space-y-2">
+              <li><a href="/pizza" class="text-gray-300 hover:text-white">Best Pizza</a></li>
+              <li><a href="/coffee" class="text-gray-300 hover:text-white">Best Coffee Shops</a></li>
+              <li><a href="/gyms" class="text-gray-300 hover:text-white">Best Gyms</a></li>
+              <li><a href="/neighborhoods" class="text-gray-300 hover:text-white">Best Neighborhoods</a></li>
+              <li><a href="/festivals" class="text-gray-300 hover:text-white">Best Festivals</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="text-lg font-bold mb-4">About</h4>
+            <p class="text-gray-300">Ranking Edmonton is a community-driven website to help locals and visitors discover the best places and experiences in the city.</p>
+            <p class="text-gray-300 mt-4">&copy; {new Date().getFullYear()} Ranking Edmonton</p>
+          </div>
+        </div>
+      </div>
+    </footer>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <script>
+      // Mobile menu toggle
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+      }
+      
+      // Set active nav link based on current page
+      document.addEventListener('DOMContentLoaded', () => {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href === currentPath) {
+            link.classList.add('active');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

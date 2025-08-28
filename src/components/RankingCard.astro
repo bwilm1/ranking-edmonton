@@ -1,0 +1,45 @@
+---
+import UpvoteButton from './UpvoteButton.astro';
+import type { Ranking } from '../lib/fileStorage';
+
+interface Props {
+  item: Ranking;
+  rank: number;
+}
+
+const { item, rank } = Astro.props;
+---
+
+<div class="ranking-card card flex flex-col md:flex-row gap-4 mb-8 hover:shadow-lg transition-all duration-300">
+  <div class="rank-badge flex items-center justify-center text-4xl font-bold text-ui-accent w-16 h-16 shrink-0">
+    #{rank}
+  </div>
+  
+  <div class="md:border-l md:pl-6 flex-1">
+    <div class="flex flex-wrap justify-between items-start gap-4">
+      <h3 class="text-2xl font-bold">{item.name}</h3>
+      <UpvoteButton itemId={item.id} votes={item.votes} />
+    </div>
+    
+    {item.image_url && (
+      <div class="my-4">
+        <div class="rounded-lg overflow-hidden">
+          <img 
+            src={`${item.image_url}?t=${Date.now()}`}
+            alt={`${item.name} in Edmonton - Ranked #${rank} by locals`}
+            loading={rank <= 3 ? "eager" : "lazy"}
+            width="800"
+            height="400"
+            decoding="async"
+            class="w-full h-48 object-cover object-center"
+          />
+        </div>
+        <p class="text-sm text-gray-500 italic mt-1">* Representative image only. May not reflect actual location.</p>
+      </div>
+    )}
+    
+    {item.description && (
+      <p class="text-gray-700">{item.description}</p>
+    )}
+  </div>
+</div>

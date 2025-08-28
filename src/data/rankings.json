@@ -1,0 +1,212 @@
+{
+  "pizza": [
+    {
+      "id": 1,
+      "category": "pizza",
+      "name": "Tony's Pizza Palace",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Family-owned institution known for authentic Neapolitan-style pizza with a perfect thin crust. Their wood-fired oven creates a distinctive char on their handcrafted dough."
+    },
+    {
+      "id": 2,
+      "category": "pizza",
+      "name": "Rosso Pizzeria",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Artisanal pizzeria featuring locally-sourced ingredients and creative topping combinations. Their sourdough crust has a delicious tang that complements their house-made sauce."
+    },
+    {
+      "id": 3,
+      "category": "pizza",
+      "name": "Sepps Pizza",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Local favorite serving Chicago-style deep dish pizza with generous toppings and a flaky, buttery crust. Known for their massive portion sizes and family-friendly atmosphere."
+    },
+    {
+      "id": 4,
+      "category": "pizza",
+      "name": "Ragazzi Pizza Co.",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Modern pizzeria offering both traditional and innovative pies. Their New York-style slices are perfect for folding, with the ideal balance of thin crust and quality toppings."
+    },
+    {
+      "id": 5,
+      "category": "pizza",
+      "name": "Love Pizza",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Contemporary quick-service pizza spot with build-your-own options and creative seasonal specials. Their commitment to community involvement makes them a neighborhood staple."
+    }
+  ],
+  "coffee": [
+    {
+      "id": 6,
+      "category": "coffee",
+      "name": "Transcend Coffee",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Specialty coffee roaster focusing on direct trade relationships with farmers. Known for their meticulous brewing methods and educational cupping sessions."
+    },
+    {
+      "id": 7,
+      "category": "coffee",
+      "name": "The Columbian Coffee House",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Cozy neighborhood café serving single-origin coffees and house-made pastries. Their comfortable atmosphere makes it perfect for both working and socializing."
+    },
+    {
+      "id": 8,
+      "category": "coffee",
+      "name": "ACE Coffee Roasters",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Hip micro-roastery with an industrial-chic café space. Their knowledgeable baristas create perfect espresso drinks using their own freshly roasted beans."
+    },
+    {
+      "id": 9,
+      "category": "coffee",
+      "name": "Little Brick Cafe",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1523906630133-f6934a1ab2b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Charming café housed in a historic brick home with a beautiful garden patio. Their commitment to quality coffee is matched by their outstanding breakfast and lunch menu."
+    },
+    {
+      "id": 10,
+      "category": "coffee",
+      "name": "Remedy Cafe",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Eclectic café offering a fusion of Indian and Western foods alongside specialty coffee and chai. Their vibrant atmosphere and late hours make it a community gathering spot."
+    }
+  ],
+  "gyms": [
+    {
+      "id": 11,
+      "category": "gyms",
+      "name": "Evolve Strength",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Modern fitness facility with top-of-the-line equipment and specialized training zones. Their knowledgeable staff and spacious layout create an ideal environment for serious training."
+    },
+    {
+      "id": 12,
+      "category": "gyms",
+      "name": "SVPT Fitness & Athletics",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Boutique training studio offering personalized coaching and small group fitness classes. Their science-based approach and attention to form sets them apart from standard gyms."
+    },
+    {
+      "id": 13,
+      "category": "gyms",
+      "name": "Fit4Less",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Budget-friendly gym with 24/7 access and a comprehensive selection of cardio and strength equipment. Perfect for self-directed exercisers who want affordability without sacrificing quality."
+    },
+    {
+      "id": 14,
+      "category": "gyms",
+      "name": "Blitz Conditioning",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "High-energy fitness studio specializing in circuit training and HIIT workouts. Their motivating instructors and community atmosphere keep members coming back."
+    },
+    {
+      "id": 15,
+      "category": "gyms",
+      "name": "The Meadows Recreation Centre",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Multi-purpose city facility offering a well-equipped fitness center alongside swimming pools and ice rinks. Their affordable membership includes access to multiple city recreation centers."
+    }
+  ],
+  "neighborhoods": [
+    {
+      "id": 16,
+      "category": "neighborhoods",
+      "name": "Strathcona",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1501621965065-c6e1cf6b53e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Historic district with beautiful character homes, tree-lined streets, and the popular Whyte Avenue shopping and dining area. Known for its vibrant arts scene and walkability."
+    },
+    {
+      "id": 17,
+      "category": "neighborhoods",
+      "name": "Glenora",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Prestigious central neighborhood featuring mature trees, historical mansions, and proximity to the river valley. Its quiet streets and excellent schools make it ideal for families."
+    },
+    {
+      "id": 18,
+      "category": "neighborhoods",
+      "name": "Ritchie",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Up-and-coming area with a mix of original character homes and modern infills. Its growing restaurant scene and community spirit have made it increasingly popular with young professionals."
+    },
+    {
+      "id": 19,
+      "category": "neighborhoods",
+      "name": "Oliver",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Dense, urban neighborhood west of downtown with a mix of high-rises and historic buildings. Its central location and abundant amenities appeal to students and young urban professionals."
+    },
+    {
+      "id": 20,
+      "category": "neighborhoods",
+      "name": "Highlands",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Character neighborhood in northeast Edmonton known for its Arts and Crafts style homes and community engagement. Its affordability relative to other character areas makes it attractive to families."
+    }
+  ],
+  "festivals": [
+    {
+      "id": 21,
+      "category": "festivals",
+      "name": "Edmonton Folk Music Festival",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Beloved summer festival in Gallagher Park featuring local and international folk artists. Known for its relaxed atmosphere and stunning river valley views."
+    },
+    {
+      "id": 22,
+      "category": "festivals",
+      "name": "K-Days",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Annual summer exhibition with midway rides, concerts, food, and exhibitions. A longstanding Edmonton tradition that attracts visitors of all ages."
+    },
+    {
+      "id": 23,
+      "category": "festivals",
+      "name": "Taste of Edmonton",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Food festival showcasing the diverse culinary scene of Edmonton. Features samples from dozens of local restaurants and food trucks."
+    },
+    {
+      "id": 24,
+      "category": "festivals",
+      "name": "Edmonton International Fringe Theatre Festival",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "North America's largest fringe festival, featuring hundreds of independent theater performances throughout Old Strathcona."
+    },
+    {
+      "id": 25,
+      "category": "festivals",
+      "name": "Heritage Festival",
+      "votes": 0,
+      "image_url": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80",
+      "description": "Celebration of Edmonton's cultural diversity, with pavilions representing over 100 countries. Features traditional food, dance, and crafts from around the world."
+    }
+  ]
+}

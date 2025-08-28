@@ -1,0 +1,60 @@
+---
+import type { Ranking } from '../lib/fileStorage';
+
+interface Props {
+  categoryName: string;
+  rankings: Ranking[];
+  categoryDescription: string;
+  url: string;
+}
+
+const { categoryName, rankings, categoryDescription, url } = Astro.props;
+
+// Generate schemas
+const citySchema = {
+  "@context": "https://schema.org",
+  "@type": "City",
+  "name": "Edmonton",
+  "alternateName": "YEG",
+  "description": "Edmonton is the capital city of Alberta, Canada, known for its vibrant culture, festivals, and diverse attractions.",
+  "url": "https://ranking-edmonton.netlify.app",
+  "containedInPlace": {
+    "@type": "AdministrativeArea",
+    "name": "Alberta",
+    "containedInPlace": {
+      "@type": "Country",
+      "name": "Canada"
+    }
+  }
+};
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": categoryName,
+  "description": categoryDescription,
+  "url": url,
+  "numberOfItems": rankings.length,
+  "itemListElement": rankings.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "LocalBusiness",
+      "name": item.name,
+      "description": item.description || `${item.name} in Edmonton`,
+      "url": `${url}#${item.id}`,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Edmonton",
+        "addressRegion": "AB",
+        "addressCountry": "CA"
+      }
+    }
+  }))
+};
+
+// Stringify and format for Astro component
+const schemaString = JSON.stringify([citySchema, itemListSchema]);
+---
+
+<script type="application/ld+json" set:html={schemaString}></script>

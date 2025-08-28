@@ -1,0 +1,68 @@
+---
+interface Props {
+  itemId: number;
+  votes: number;
+}
+
+const { itemId, votes } = Astro.props;
+---
+
+<div class="upvote-container flex items-center">
+  <button 
+    class="upvote-btn group" 
+    data-item-id={itemId}
+    aria-label="Upvote this item"
+  >
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round" 
+      class="w-6 h-6 transition-transform duration-200 group-hover:-translate-y-1 group-hover:text-ui-accent"
+    >
+      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+    </svg>
+  </button>
+  <span class="votes-count ml-2 font-medium text-gray-700">{votes}</span>
+</div>
+
+<script define:vars={{ itemId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const upvoteBtn = document.querySelector(`.upvote-btn[data-item-id="${itemId}"]`);
+    const votesCount = upvoteBtn?.nextElementSibling;
+    
+    if (upvoteBtn && votesCount) {
+      upvoteBtn.addEventListener('click', async () => {
+        try {
+          // Optimistically update UI
+          upvoteBtn.classList.add('active');
+          upvoteBtn.setAttribute('disabled', 'true');
+          const currentVotes = parseInt(votesCount.textContent || '0');
+          votesCount.textContent = (currentVotes + 1).toString();
+          
+          // Send vote to the API
+          const response = await fetch('/api/vote', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: itemId }),
+          });
+          
+          if (!response.ok) {
+            // Revert optimistic update if there was an error
+            upvoteBtn.classList.remove('active');
+            upvoteBtn.removeAttribute('disabled');
+            votesCount.textContent = currentVotes.toString();
+            console.error('Failed to upvote item');
+          }
+        } catch (error) {
+          console.error('Error upvoting item:', error);
+        }
+      });
+    }
+  });
+</script>

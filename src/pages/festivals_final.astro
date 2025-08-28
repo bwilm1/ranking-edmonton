@@ -1,0 +1,230 @@
+---
+import Layout from '../layouts/Layout.astro';
+import RankingCard from '../components/RankingCard.astro';
+import JsonLdSchema from '../components/JsonLdSchema.astro';
+import { getRankings } from '../lib/fileStorage';
+import type { Ranking } from '../lib/fileStorage';
+
+// This will be replaced by actual API call in production
+// For development, we'll use mock data
+const mockRankings: Ranking[] = [
+  {
+    id: 21,
+    category: 'festivals',
+    name: 'Edmonton Folk Music Festival',
+    votes: 51,
+    image_url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80',
+    description: 'Beloved summer festival in Gallagher Park featuring local and international folk artists. Known for its relaxed atmosphere and stunning river valley views.'
+  },
+  {
+    id: 22,
+    category: 'festivals',
+    name: 'K-Days',
+    votes: 44,
+    image_url: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80',
+    description: 'Annual summer exhibition with midway rides, concerts, food, and exhibitions. A longstanding Edmonton tradition that attracts visitors of all ages.'
+  },
+  {
+    id: 23,
+    category: 'festivals',
+    name: 'Taste of Edmonton',
+    votes: 39,
+    image_url: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80',
+    description: 'Food festival showcasing the diverse culinary scene of Edmonton. Features samples from dozens of local restaurants and food trucks.'
+  },
+  {
+    id: 24,
+    category: 'festivals',
+    name: 'Edmonton International Fringe Theatre Festival',
+    votes: 35,
+    image_url: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80',
+    description: 'North America\'s largest fringe festival, featuring hundreds of independent theater performances throughout Old Strathcona.'
+  },
+  {
+    id: 25,
+    category: 'festivals',
+    name: 'Heritage Festival',
+    votes: 30,
+    image_url: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300&q=80',
+    description: 'Celebration of Edmonton\'s cultural diversity, with pavilions representing over 100 countries. Features traditional food, dance, and crafts from around the world.'
+  }
+];
+
+// Get the rankings from our JSON file, fallback to mock data
+let rankings = mockRankings;
+try {
+  const fileRankings = await getRankings('festivals');
+  if (fileRankings && fileRankings.length > 0) {
+    rankings = fileRankings;
+  }
+} catch (error) {
+  console.log('Using mock data for festivals:', error);
+}
+
+// SEO metadata
+const title = "Best Festivals in Edmonton 2025 | Ranking Edmonton";
+const description = "Discover the best festivals and events in Edmonton for 2025. From music festivals to cultural celebrations, find Edmonton's top-rated festivals voted by locals.";
+const ogImage = "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80";
+---
+
+<Layout title={title} description={description} ogImage={ogImage} canonicalUrl="/festivals">
+  <!-- Add JSON-LD Schema for SEO -->
+  <JsonLdSchema 
+    categoryName="Best Festivals in Edmonton"
+    rankings={rankings}
+    categoryDescription="A ranked list of the best festivals and events in Edmonton, as voted by locals in 2025."
+    url={Astro.url.href}
+  />
+  
+  <!-- Hero Section -->
+  <section class="relative py-16 md:py-20 bg-gradient-to-r from-events-primary to-events-primary/80 text-white overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-events-primary to-events-primary/80"></div>
+    
+    <div class="container relative z-10">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          Best Festivals in Edmonton (2025)
+        </h1>
+        <p class="text-xl mb-6">
+          From world-class music festivals to cultural celebrations, discover Edmonton's vibrant festival scene as voted by locals.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Main Content -->
+  <section class="py-12 md:py-16 bg-white relative z-20">
+    <div class="container">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Rankings -->
+        <div class="lg:col-span-2">
+          <h2 class="text-3xl font-bold mb-8">
+            Top-Rated Festivals in Edmonton
+          </h2>
+          
+          <div class="rankings-list">
+            {rankings && rankings.length > 0 ? rankings.map((item, index) => (
+              <RankingCard item={item} rank={index + 1} />
+            )) : (
+              <p>No festivals found.</p>
+            )}
+          </div>
+          
+          <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+            <h3 class="text-xl font-bold mb-4">How We Rank</h3>
+            <p>
+              Our rankings are determined by upvotes from Edmonton locals who know the city best. 
+              This creates a real-time, constantly evolving guide to the city's top festivals and events.
+            </p>
+            <p class="mt-4">
+              Don't see your favorite festival on the list? 
+              Make sure to upvote it to help it climb the rankings!
+            </p>
+          </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-8">
+            <!-- Quick Stats -->
+            <div class="card mb-8">
+              <h3 class="text-xl font-bold mb-4">Festival Facts</h3>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-600">Total Festivals Ranked:</span>
+                  <span class="font-bold text-events-primary">{rankings.length}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-600">Total Votes Cast:</span>
+                  <span class="font-bold text-events-primary">{rankings.reduce((sum, item) => sum + item.votes, 0)}</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Festival Guide -->
+            <div class="card">
+              <h3 class="text-xl font-bold mb-4">Edmonton Festival Guide</h3>
+              <div class="space-y-4 text-sm">
+                <div>
+                  <h4 class="font-semibold text-events-primary mb-2">Summer Festivals</h4>
+                  <p class="text-gray-600">Edmonton comes alive in summer with outdoor festivals in beautiful venues like Gallagher Park and Hawrelak Park.</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-events-primary mb-2">Year-Round Events</h4>
+                  <p class="text-gray-600">From winter celebrations to spring cultural events, Edmonton hosts festivals throughout the year.</p>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-events-primary mb-2">Festival City</h4>
+                  <p class="text-gray-600">Edmonton is known as "Canada's Festival City" for its incredible variety and quality of festivals.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Related Categories Section -->
+  <section class="py-12 md:py-16">
+    <div class="container">
+      <h2 class="text-3xl font-bold mb-8">
+        Explore Related Categories
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <a href="/neighborhoods" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton neighborhoods" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-secondary/70 to-lifestyle-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Neighborhoods</h3>
+          <p class="text-gray-600 mb-4">Find the perfect area to live, work, and play in Edmonton.</p>
+        </a>
+        
+        <a href="/gyms" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Edmonton gyms" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-lifestyle-primary/70 to-lifestyle-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Gyms</h3>
+          <p class="text-gray-600 mb-4">Find the top fitness centers to stay active in Edmonton.</p>
+        </a>
+        
+        <a href="/pizza" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Pizza in Edmonton" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-food-primary/70 to-food-primary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Pizza</h3>
+          <p class="text-gray-600 mb-4">Discover Edmonton's tastiest pizza joints loved by locals.</p>
+        </a>
+        
+        <a href="/coffee" class="card hover:shadow-lg transition-all duration-300">
+          <div class="h-48 mb-4 overflow-hidden rounded-lg">
+            <img 
+              src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=300&q=80" 
+              alt="Coffee shops in Edmonton" 
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-b from-food-secondary/70 to-food-secondary/50 opacity-70"></div>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Best Coffee Shops</h3>
+          <p class="text-gray-600 mb-4">Find the perfect spots for your caffeine fix in Edmonton.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
