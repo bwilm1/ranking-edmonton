@@ -5,6 +5,8 @@ import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
+    site: 'https://ranking-edmonton.netlify.app',
+    trailingSlash: 'never',
     integrations: [tailwind()],
     output: 'server',
     adapter: netlify({

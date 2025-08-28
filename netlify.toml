@@ -44,15 +44,21 @@
     Content-Type = "application/xml"
     X-Robots-Tag = "noarchive"
 
-# Handle 404 errors with a custom page
-[[redirects]]
-  from = "/*"
-  to = "/404"
-  status = 404
-
 # Redirect www to non-www
 [[redirects]]
   from = "https://www.ranking-edmonton.netlify.app/*"
   to = "https://ranking-edmonton.netlify.app/:splat"
   status = 301
   force = true
+
+# Handle trailing slash redirects - remove trailing slashes
+[[redirects]]
+  from = "/*/"
+  to = "/:splat"
+  status = 301
+
+# Handle 404 errors with a custom page
+[[redirects]]
+  from = "/*"
+  to = "/404"
+  status = 404
